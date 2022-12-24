@@ -1,13 +1,30 @@
 # vid_downloader
 
-allows the user to download mp4 videos from the internet.
+By Yassine Krichen
 
-v1: allows yt vids donwload at the highest quality
+# v1.0 features:
 
-v2: allows the download of a whole playlist
-uses a new field designed for the use of a playlist link
-then, with a new button downloads the playlist
+- download any youtube video using it's url at it's highest quality
+- download playlists from youtube (must be public)
+- allow you to choose where to save your files
 
-# not choosing a dir will result in downloading the files in the same folder as the program.
+# How to init the program:
 
-# when clicked, the doownload button will freeze: that's an indicator that it is downloading so please be patient in the meanwhile since clicking spamming the button won't result on a lower timing process but might result on a crash.
+- first of all you must have a code editor (vscode is recommanded) as it will be used to run the program.
+- You must also, install python on your device (easy to do using the official website of python)
+- You must install the following libs in order for the program to work:
+  - pytube
+  - moviepy
+  - tkinter & shutil (I think they are already installed with the latest version of python)
+- in line 58, you must change the file="path" to the new path of your youtube.png (vscode can give you the exact path to put in there)
+
+--> You are ready to run the program now!
+
+# How to use the program:
+
+- you first choose a dir (the place where you want to save your files)
+  "if not selected, it will default to the path of the program"
+- if you want to download a single video, you use the first field and regular download button, else in the case of a playlist you use the second field "Input Playlist" and hit the download playlist button.
+- not using the program in it's intended way will result in crashes and problems with the download procedure
+- when downloading a video | playlist, you must be patient and wait for the program to do its work, the app title will indicate whether the app is working or not.
+  -spamming the app with clicks will result in a crash so avoid doing that and please keep waiting for the download to finish.

@@ -4,6 +4,7 @@ from tkinter import filedialog
 from moviepy import *
 from moviepy.editor import VideoFileClip
 from pytube import YouTube
+from pytube import Playlist
 
 import shutil  # copy files and folders and move them
 # functions
@@ -30,9 +31,26 @@ def download_file():
     screen.title("Download Complete! Try downloading another file.")
 
 
+def download_pl():
+    # get user playlist link
+    pl_link = pl_link_field.get()
+    # get user path for downloads
+    user_path = path_label.cget("text")  # gets path as txt
+
+    # loop to download
+    p = Playlist(pl_link)
+    for video in p.videos:
+        screen.title(f'Downloading: {video.title}')
+        st = video.streams.get_highest_resolution().download()
+        # move to selected dir
+        shutil.move(st, user_path)
+
+        screen.title("Download Complete! Try downloading another file.")
+
+
 screen = Tk()
 title = screen.title("Youtube Video Downloader")
-canvas = Canvas(screen, width=500, height=500)
+canvas = Canvas(screen, width=500, height=600)
 canvas.pack()
 
 # img logo
@@ -46,23 +64,34 @@ link_field = Entry(screen, width=50)
 link_label = Label(screen, text="Enter Download Link: ",
                    font=('Arial Rounded MT Bold', 15))
 
+# playlist link field
+pl_link_field = Entry(screen, width=50)
+pl_link_label = Label(screen, text="Enter Playlist Link: ",
+                      font=('Arial Rounded MT Bold', 15))
+
+# add playlist widget to window
+canvas.create_window(250, 500, window=pl_link_label)
+canvas.create_window(250, 535, window=pl_link_field)
+
 # select path for file saving
 path_label = Label(screen, text="Select Path: ",
                    font=('Arial Rounded MT Bold', 15))
 
 select_btn = Button(screen, text="Select", command=select_path)
 # Add to window
-canvas.create_window(250, 365, window=path_label)
-canvas.create_window(250, 400, window=select_btn)
+canvas.create_window(250, 300, window=path_label)
+canvas.create_window(250, 335, window=select_btn)
 
 
 # add widget to window
-canvas.create_window(250, 300, window=link_label)
-canvas.create_window(250, 335, window=link_field)
+canvas.create_window(250, 365, window=link_label)
+canvas.create_window(250, 400, window=link_field)
 
 # download btns
 download_btn = Button(screen, text="Download File", command=download_file)
+pl_download_btn = Button(screen, text="Download Playlist", command=download_pl)
 
 # add to canvas
-canvas.create_window(250, 450, window=download_btn)
+canvas.create_window(250, 440, window=download_btn)
+canvas.create_window(250, 565, window=pl_download_btn)
 screen.mainloop()
