@@ -1,13 +1,23 @@
 from tkinter import *
 from tkinter import filedialog
-
+import os
 from moviepy import *
 from moviepy.editor import VideoFileClip
+from moviepy.editor import *
+
 from pytube import YouTube
 from pytube import Playlist
 
 import shutil  # copy files and folders and move them
 # functions
+
+
+def non_spc_carc(string):
+    res = string
+    for i in range(0, len(string)-1):
+        if string[i] in ["\\", "/", ":", "*", "?", "<", ">", "|"]:
+            res = res[0: i] + res[i+1: len(res)]
+    return res
 
 
 def select_path():
@@ -26,8 +36,18 @@ def download_file():
     screen.title("Downloading, Please Wait...")
     # Download video
     if format_value == 1:
-        audio_file = YouTube(get_link).streams.get_audio_only().download()
-        shutil.move(audio_file, user_path)
+        YouTube(
+            get_link).streams.get_lowest_resolution().download(filename='tmp_file.mp4')
+
+        # shutil.move(audio_file, user_path)
+        video = VideoFileClip('tmp_file.mp4')
+
+        video.audio.write_audiofile(non_spc_carc(
+            str(YouTube(get_link).title))+".mp3")
+        video.close()
+        os.remove('tmp_file.mp4')
+        shutil.move(non_spc_carc(
+            str(YouTube(get_link).title))+".mp3", user_path)
 
     elif format_value == 2:
         mp4_video = YouTube(
@@ -58,8 +78,18 @@ def download_pl():
         p = Playlist(pl_link)
         for video in p.videos:
             screen.title(f'Downloading: {video.title}')
-            audio_file = video.streams.get_audio_only().download()
-            shutil.move(audio_file, user_path)
+            # audio_file = video.streams.get_audio_only().download()
+            # shutil.move(audio_file, user_path)
+            video.streams.get_lowest_resolution().download(filename='tmp_file.mp4')
+
+            # shutil.move(audio_file, user_path)
+            new_video = VideoFileClip("tmp_file.mp4")
+
+            new_video.audio.write_audiofile(
+                non_spc_carc(str(video.title))+".mp3")
+            new_video.close()
+            os.remove("tmp_file.mp4")
+            shutil.move(non_spc_carc(str(video.title))+".mp3", user_path)
 
         screen.title("Download Complete! Try downloading another file.")
 
