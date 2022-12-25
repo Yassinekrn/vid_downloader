@@ -28,3 +28,4 @@ By Yassine Krichen
 - not using the program in it's intended way will result in crashes and problems with the download procedure
 - when downloading a video | playlist, you must be patient and wait for the program to do its work, the app title will indicate whether the app is working or not.
   -spamming the app with clicks will result in a crash so avoid doing that and please keep waiting for the download to finish.
+- if you want to delete a downloaded file, you must close the program as it will not give the permission otherwise
